@@ -2,10 +2,8 @@ from django.shortcuts import render
 from .models import User, Talent
 from .serializers import UserSerializer, TalentSerializer
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 # Create your views here.
-
 
 def signUp(request):
     if request.method == 'POST':

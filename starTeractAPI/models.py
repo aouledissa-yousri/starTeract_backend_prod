@@ -1,8 +1,8 @@
 from django.db import models
 import hashlib
+from django.db import models
 
 # Create your models here.
-from django.db import models
 
 
 class User(models.Model):
@@ -15,12 +15,14 @@ class User(models.Model):
 
 
     def getData(self, request):
-        self.id = User.objects.all().count() + 1
-        self.name = request.POST.get("name")
-        self.email = request.POST.get("email")
-        self.country = request.POST.get("country")
-        self.password = self.__hash(request.POST.get("password"))
-        self.phone = request.POST.get("phone")
+        return {
+            "id": User.objects.all().count() + 1,
+            "name": request.POST.get("name"),
+            "email" : request.POST.get("email"),
+            "country" : request.POST.get("country"),
+            "password" : self.__hash(request.POST.get("password")),
+            "phone" : int(request.POST.get("phone"))
+        }
     
     def __hash(self, password):
         result = hashlib.sha256(password.encode())
@@ -33,8 +35,9 @@ class Talent(User):
     followers = models.IntegerField(default=0)
 
     def getData(self, request):
-        super().getData(request)
-        self.rulingSocialNetwork = request.POST.get("rulingSocialNetwork")
-        self.nickname = request.POST.get("nickname")
-        self.followers = request.POST.get("followers")
+        data = super().getData(request)
+        data["rulingSocialNetwork"] = request.POST.get("rulingSocialNetwork")
+        data["nickname"] = request.POST.get("nickname")
+        data["followers"] = int(request.POST.get("followers"))
+        return data
 
