@@ -1,7 +1,9 @@
 from ..models import User
-from ..serializers import UserSerializer, CredentialsSerializer
+from ..serializers import UserSerializer
 from ..classes.Credentials import Credentials
-from django.db.models import Q
+import random 
+import string 
+
 
 
 class UserClass:
@@ -42,12 +44,17 @@ class UserClass:
     
     def login(self, request):
         credentials = Credentials(request)
-        serializer = CredentialsSerializer(data=credentials.getCredentials())
-        if serializer.is_valid():
-            target = User.objects.filter(name=request.POST.get("username"))
-            if target.count() != 0:
-                return True
+        target = (User.objects.filter(name=credentials.getCredentials()["name"]) | User.objects.filter(email=credentials.getCredentials()["email"])) & User.objects.filter(password=credentials.getCredentials()["password"])
+        if target.count() != 0:
+            return True
         return False
+
+    
+
+    '''@staticmethod
+    def generateToken():
+        chars = string.printable
+        return ''.join(random.choice(chars) for i in range(random.randint(32,150)))'''
     
 
 

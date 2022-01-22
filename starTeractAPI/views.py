@@ -26,7 +26,7 @@ def login(request):
     if request.method == "POST":
         user = UserClass()
         if user.login(request):
-            return redirect("../success/")
+            return redirect("../success")
         else:
             return redirect("../fail/")
     return render(request, "login.html")
