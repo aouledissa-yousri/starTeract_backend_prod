@@ -10,6 +10,7 @@ class User(models.Model):
     country = models.CharField(max_length=255, default="")
     password = models.CharField(max_length=255, default="")
     phone = models.CharField(max_length=255, default="", unique=True)
+    blocked = models.BooleanField(default=False)
 
 
 class Talent(User):

@@ -13,6 +13,7 @@ class UserClass:
     __country = ""
     __password = ""
     __phone = ""
+    __blocked = False
 
     def __init__(self, request=None):
         if request == None :
@@ -24,6 +25,7 @@ class UserClass:
             self.__country = request.POST.get("country")
             self.__password = Credentials.hash(request.POST.get("password"))
             self.__phone = request.POST.get("phone")
+            self.__blocked = False
    
     def getData(self):
         return {
@@ -32,7 +34,8 @@ class UserClass:
             "email": self.__email,
             "country": self.__country,
             "password": self.__password,
-            "phone": self.__phone
+            "phone": self.__phone,
+            "blocked": self.__blocked
         }
     
     def signUp(self, request):
