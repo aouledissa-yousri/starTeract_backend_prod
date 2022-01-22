@@ -10,3 +10,8 @@ class TalentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Talent
         fields = "__all__"
+
+class CredentialsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["name", "email", "password"]

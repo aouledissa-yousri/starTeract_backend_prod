@@ -1,22 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import User, Talent
-from .serializers import UserSerializer, TalentSerializer
-from rest_framework.decorators import api_view
+from .classes.UserClass import UserClass
+from .classes.TalentClass import TalentClass
+
 
 # Create your views here.
 
 def signUp(request):
     if request.method == 'POST':
-        user = User()
-        serializer = UserSerializer(data=user.getData(request))
-        if serializer.is_valid():
-            serializer.save()
+        user = UserClass()
+        if user.signUp(request):
+            return redirect("../success/")
     return render(request, "signUp.html")
 
 def signUpAsTalent(request):
-    if request.method == 'POST':
-        talent = Talent()
-        serializer = TalentSerializer(data=talent.getData(request))
-        if serializer.is_valid():
-            serializer.save()
+    if request.method == "POST":
+        talent = TalentClass()
+        if talent.signUp(request):
+            return redirect("../success/")
     return render(request, "JoinAsTalent.html")
+
+
+
+def login(request):
+    if request.method == "POST":
+        user = UserClass()
+        if user.login(request):
+            return redirect("../success/")
+        else:
+            return redirect("../fail/")
+    return render(request, "login.html")
+
+
+def success(request):
+    return render(request, "success.html")
+
+def failure(request):
+    return render(request, "fail.html")
+
+
