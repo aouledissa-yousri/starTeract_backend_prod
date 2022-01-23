@@ -77,11 +77,18 @@ WSGI_APPLICATION = 'starTeract.wsgi.application'
 
 DATABASES = {
     'default': {
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #'NAME': 'StarTeract',
+        #'USER': 'postgres',
+        #'PASSWORD': 'thisisnotwhatyouthink4',
+        #'HOST': 'localhost',
+        #'PORT': '5432'
+
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'StarTeract',
-        'USER': 'postgres',
-        'PASSWORD': 'thisisnotwhatyouthink4',
-        'HOST': 'localhost',
+        'NAME': 'd3u31nip2ai7i4',
+        'USER': 'vbjnozxhvkxmtl',
+        'PASSWORD': 'ef29d96ad2d1d9830c582d9003b7636a8620701bde75761d8ef0c6b0a11de149',
+        'HOST': 'ec2-99-81-177-233.eu-west-1.compute.amazonaws.com',
         'PORT': '5432'
     }
 }
