@@ -1,17 +1,20 @@
+import json
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import User, Talent
 from .classes.UserClass import UserClass
 from .classes.TalentClass import TalentClass
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
 
+@csrf_exempt
 def signUp(request):
-    if request.method == 'POST':
-        user = UserClass()
-        if user.signUp(request):
-            return redirect("../success/")
-    return render(request, "signUp.html")
+    user = UserClass()
+    if user.signUp(json.loads(request.body)):
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False})
 
 def signUpAsTalent(request):
     if request.method == "POST":

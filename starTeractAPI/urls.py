@@ -6,5 +6,5 @@ urlpatterns = [
     path("joinAsTalent/", views.signUpAsTalent),
     path("login/", views.login),
     path("success/", views.success),
-    path("fail/", views.failure)
+    path("fail/", views.failure),
 ]

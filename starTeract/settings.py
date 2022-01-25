@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-olcf)=r)pwgqpnc3jcvob#abk*#k29mw!zp=2taufgvfm&)-v0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+
 ALLOWED_HOSTS = []
 
 
@@ -38,18 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "starTeractAPI",
-    "rest_framework"
+    "rest_framework",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'starTeract.urls'
 
@@ -85,10 +91,10 @@ DATABASES = {
         #'PORT': '5432'
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd3u31nip2ai7i4',
-        'USER': 'vbjnozxhvkxmtl',
-        'PASSWORD': 'ef29d96ad2d1d9830c582d9003b7636a8620701bde75761d8ef0c6b0a11de149',
-        'HOST': 'ec2-99-81-177-233.eu-west-1.compute.amazonaws.com',
+        'NAME': 'dek9ptrnhk3c8c',
+        'USER': 'jpnzzlatdwrjfd',
+        'PASSWORD': 'e16816e785bb20869c2ab55bd0f07ebe16a95cde636e8e711ca9f9efeae71728',
+        'HOST': 'ec2-54-155-194-191.eu-west-1.compute.amazonaws.com',
         'PORT': '5432'
     }
 }
@@ -134,3 +140,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8100"
+]

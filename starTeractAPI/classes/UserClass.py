@@ -20,11 +20,11 @@ class UserClass:
             pass
         else:
             self.__id = User.objects.all().count() + 1
-            self.__name = request.POST.get("name")
-            self.__email = request.POST.get("email")
-            self.__country = request.POST.get("country")
-            self.__password = Credentials.hash(request.POST.get("password"))
-            self.__phone = request.POST.get("phone")
+            self.__name = request.get("name")
+            self.__email = request.get("email")
+            self.__password = Credentials.hash(request.get("password"))
+            self.__country = request.get("country")
+            self.__phone = request.get("phone")
             self.__blocked = False
    
     def getData(self):
