@@ -1,5 +1,6 @@
 from ..serializers import TalentSerializer
 from ..classes.UserClass import UserClass
+from ..classes.ClassificationClass import ClassificationClass
 
 class TalentClass(UserClass):
     __socialNetwork = ""
@@ -9,14 +10,14 @@ class TalentClass(UserClass):
     __rating = 0
 
     def __init__(self, request=None):
-        super().__init__(request)
         if request == None:
             pass 
         else:
-            self.__socialNetwork = request.POST.get("socialNetwork")
-            self.__nickname = request.POST.get("nickname")
-            self.__followers = request.POST.get("followers")
-            self.__rating = request.POST.get("description")
+            super().__init__(request)
+            self.__socialNetwork = request.get("rulingSocialNetwork")
+            self.__nickname = request.get("nickname")
+            self.__followers = request.get("followers")
+            self.__description = request.get("description")
     
     def getData(self):
         data = super().getData()
@@ -25,6 +26,7 @@ class TalentClass(UserClass):
         data["followers"] = self.__followers
         data["description"] = self.__description
         data["rating"] = self.__rating
+        data["blocked"] = True
         return data
     
     def signUp(self, request):
@@ -32,6 +34,7 @@ class TalentClass(UserClass):
         serializer = TalentSerializer(data=self.getData())
         if serializer.is_valid():
             serializer.save()
+            ClassificationClass.saveClassifications(self, request)
         return serializer.is_valid()
     
         

@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from .models import User, Talent
 from .classes.UserClass import UserClass
 from .classes.TalentClass import TalentClass
+from .classes.CategoryClass import CategoryClass
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -16,12 +17,12 @@ def signUp(request):
         return JsonResponse({"success": True})
     return JsonResponse({"success": False})
 
+@csrf_exempt
 def signUpAsTalent(request):
-    if request.method == "POST":
-        talent = TalentClass()
-        if talent.signUp(request):
-            return redirect("../success/")
-    return render(request, "JoinAsTalent.html")
+    talent = TalentClass()
+    if talent.signUp(json.loads(request.body)):
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False})
 
 
 
@@ -40,5 +41,48 @@ def success(request):
 
 def failure(request):
     return render(request, "fail.html")
+
+@csrf_exempt
+def getCategories(request):
+    return JsonResponse(CategoryClass.getCategories(), safe=False)
+
+@csrf_exempt
+def printCategories(request):
+    return JsonResponse(json.loads(request.body).get("categories"), safe=False)
+
+
+
+
+
+
+
+
+'''def test(request):
+    categories = [
+        "Sport",
+        "Politics",
+        "Science",
+        "International star",
+        "Khaleej",
+        "Signer",
+        "Actor",
+        "TV",
+        "Musician",
+        "Rapper",
+        "Metal",
+        "Rock",
+        "For kids",
+        "Media",
+        "Comedian",
+        "Content creator",
+        "Youtuber",
+        "Poet",
+        "Marketing",
+    ]
+
+    for i in range(0,len(categories)):
+        category = CategoryClass(categories[i])
+        category.save()'''
+        
 
 
