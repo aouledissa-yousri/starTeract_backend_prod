@@ -3,10 +3,9 @@ from . import views
 
 urlpatterns = [
     path("signUp/", views.signUp),
-    #path("joinAsTalent/", views.printCategories),
+    path("login/", views.test),
     path("joinAsTalent/", views.signUpAsTalent),
-    path("login/", views.login),
-    path("success/", views.success),
-    path("fail/", views.failure),
-    path("categories/", views.getCategories)
+    #path("login/", views.login),
+    path("categories/", views.getCategories),
+    path("auth/", views.checkValidToken)
 ]

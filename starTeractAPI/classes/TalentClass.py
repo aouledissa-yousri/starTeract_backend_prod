@@ -1,6 +1,10 @@
 from ..serializers import TalentSerializer
 from ..classes.UserClass import UserClass
 from ..classes.ClassificationClass import ClassificationClass
+from ..models import Talent, User
+from django.db.models import Q
+
+
 
 class TalentClass(UserClass):
     __socialNetwork = ""
@@ -26,7 +30,6 @@ class TalentClass(UserClass):
         data["followers"] = self.__followers
         data["description"] = self.__description
         data["rating"] = self.__rating
-        data["blocked"] = True
         return data
     
     def signUp(self, request):
@@ -36,5 +39,27 @@ class TalentClass(UserClass):
             serializer.save()
             ClassificationClass.saveClassifications(self, request)
         return serializer.is_valid()
+    
+    def login(self, request):
+        if TalentClass.checkIfTalent(request).get("message"):
+            if Talent.objects.get(user_ptr_id=TalentClass.checkIfTalent(request)["id"]).verified:
+                return super().login(request)
+            return {"message": "your account is not verified yet"}
+        else:
+            return super().login(request)
+
+        
+    
+    @staticmethod
+    def checkIfTalent(request):
+        try:
+            result = Talent.objects.get(user_ptr_id = User.objects.get(Q(name=request.get("name")) | Q(email=request.get("email"))).id).user_ptr_id
+            return {
+                "message": True,
+                "id" : result
+            }
+        except:
+            return {"message" : False}
+
     
         

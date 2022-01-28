@@ -1,4 +1,5 @@
 import json
+import jwt
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import User, Talent
@@ -25,22 +26,10 @@ def signUpAsTalent(request):
     return JsonResponse({"success": False})
 
 
-
+@csrf_exempt
 def login(request):
-    if request.method == "POST":
-        user = UserClass()
-        if user.login(request):
-            return redirect("../success")
-        else:
-            return redirect("../fail/")
-    return render(request, "login.html")
-
-
-def success(request):
-    return render(request, "success.html")
-
-def failure(request):
-    return render(request, "fail.html")
+    talent = TalentClass()
+    return JsonResponse(talent.login(json.loads(request.body)))
 
 @csrf_exempt
 def getCategories(request):
@@ -50,39 +39,22 @@ def getCategories(request):
 def printCategories(request):
     return JsonResponse(json.loads(request.body).get("categories"), safe=False)
 
+@csrf_exempt
+def test(request):
+    return JsonResponse((json.loads(request.body)), safe=False)
+
+@csrf_exempt
+def checkValidToken(request):
+    try:
+        decodedToken = jwt.decode(json.loads(request.body).get("token"), "success", algorithms=["HS256"])
+        return JsonResponse({"message": "token is valid"}, safe=False)
+    except:
+        return JsonResponse({"message": "invalid token"}, safe=False)
+
+#@csrf_exempt
+def test(request):
+    return render(request, "login.html")
 
 
-
-
-
-
-
-'''def test(request):
-    categories = [
-        "Sport",
-        "Politics",
-        "Science",
-        "International star",
-        "Khaleej",
-        "Signer",
-        "Actor",
-        "TV",
-        "Musician",
-        "Rapper",
-        "Metal",
-        "Rock",
-        "For kids",
-        "Media",
-        "Comedian",
-        "Content creator",
-        "Youtuber",
-        "Poet",
-        "Marketing",
-    ]
-
-    for i in range(0,len(categories)):
-        category = CategoryClass(categories[i])
-        category.save()'''
-        
 
 

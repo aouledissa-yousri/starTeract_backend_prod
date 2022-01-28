@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,10 +6,10 @@
     </head>
     <body>
         <form action = "" method = "POST">
-            {%csrf_token%}
             <input type = "text" name = "username" placeholder = "username or email"><br>
             <input type = "password", name = "password" placeholder = "password"><br>
             <input type = "submit" value = "login">
+            <a href = "{% provider_login_url "google" %}">log in with google</a>
         </form>
     </body>
 </html>

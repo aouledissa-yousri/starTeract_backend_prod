@@ -41,8 +41,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "starTeractAPI",
     "rest_framework",
-    "corsheaders"
+    "corsheaders",
+
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook'
 ]
+
+SITE_ID = 1
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -142,5 +153,33 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8100"
+    "http://localhost:8100",
+    "https://web.postman.co"
 ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://web.postman.co"
+]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = False
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
+}
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend"
+)
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP" : {
+            "client_id": "716774563753-kkf7l6u5ajo5dirvroralb111ik00330.apps.googleusercontent.com",
+            "secret": "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",
+            "key": ""
+        }
+    }
+}
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+LOGIN_REDIRECT_URL = "http://127.0.0.1:8000/api/categories"

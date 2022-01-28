@@ -6,14 +6,9 @@ class Credentials:
     __password = ""
 
     def __init__(self, request):
-        self.__name = request.POST.get("username")
-        self.__email = request.POST.get("username")
-        self.__password = Credentials.hash(request.POST.get("password"))
-    
-    @classmethod
-    def hash(self, text):
-        result = hashlib.sha256(text.encode())
-        return result.hexdigest()
+        self.__name = request.get("name")
+        self.__email = request.get("email")
+        self.__password = request.get("password")
     
     def getCredentials(self):
         return {

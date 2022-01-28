@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator
 
 # Create your models here.
 
@@ -10,7 +11,8 @@ class User(models.Model):
     country = models.CharField(max_length=255, default="")
     password = models.CharField(max_length=255, default="")
     phone = models.CharField(max_length=255, default="", unique=True)
-    blokced = models.BooleanField(default=False)
+    blocked = models.BooleanField(default=False)
+    tries = models.IntegerField(default=3, validators = [ MaxValueValidator(3)])
 
 
 class Talent(User):
@@ -19,6 +21,8 @@ class Talent(User):
     followers = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, default="")
     rating = models.FloatField(default=0)
+    verified = models.BooleanField(default=False)
+
 
 class Notification(models.Model):
     description = models.CharField(max_length=255, default="")
