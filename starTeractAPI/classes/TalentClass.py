@@ -1,7 +1,8 @@
 from ..serializers import TalentSerializer
 from ..classes.UserClass import UserClass
+from ..classes.CategoryClass import CategoryClass
 from ..classes.ClassificationClass import ClassificationClass
-from ..models import Talent, User
+from ..models import Talent, User, Category, Classification
 from django.db.models import Q
 
 
@@ -60,6 +61,38 @@ class TalentClass(UserClass):
             }
         except:
             return {"message" : False}
+    
+    @staticmethod 
+    def getTalent(i):
+        talent = Talent.objects.get(id=i)
+        classification = Classification.objects.filter(talent_id=talent.id)
+        categories = []
+        for i in range(0, len(classification)):
+            categories.append(CategoryClass.getCategory(classification[i].category_id))
+        return {
+            "id": talent.id,
+            "name": talent.name,
+            "email": talent.email,
+            "country": talent.country,
+            "password": "",
+            "socialNetwork": talent.socialNetwork,
+            "nickname": talent.nickname,
+            "followers": talent.followers,
+            "description": talent.description,
+            "rating": talent.rating,
+            "image" : talent.image,
+            "categories": categories
+        }
+    
+    @staticmethod
+    def getTalents():
+        talents = []
+        for talent in Talent.objects.all():
+            try:
+                talents.append(TalentClass.getTalent(talent.id))
+            except:
+                continue
+        return talents
 
     
         

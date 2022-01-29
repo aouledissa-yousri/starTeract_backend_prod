@@ -53,6 +53,7 @@ class UserClass:
                 if target.password == credentials.getCredentials()["password"] and target.blocked == False:
                     return {
                         "message": "success",
+                        "id": target.id,
                         "token" : UserClass.generateToken({
                             "name": credentials.getCredentials()["name"],
                             "id": target.id
@@ -70,7 +71,7 @@ class UserClass:
     def __restart(self, id):
         if self.__blocked == False:
             self.__blocked = True
-            time.sleep(60)
+            time.sleep(18000)
             User.objects.filter(id = id).update(tries= 3)
             User.objects.filter(id = id).update(blocked= False)
             self.__blocked = False
@@ -79,6 +80,18 @@ class UserClass:
     @staticmethod
     def generateToken(payload):
         return jwt.encode(payload, "django-insecure-olcf)=r)pwgqpnc3jcvob#abk*#k29mw!zp=2taufgvfm&)-v0", algorithm="HS256")
+    
+    @staticmethod
+    def getUserData(request):
+        user = User.objects.get(id = request.get("id"))
+        return {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "country": user.country,
+            "phone": user.phone,
+            "image": user.image
+        }
      
 
     

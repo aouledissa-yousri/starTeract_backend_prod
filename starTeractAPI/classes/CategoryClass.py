@@ -30,6 +30,12 @@ class CategoryClass:
         for category in Category.objects.all():
             data.append(CategoryClass(category.name, category.id).getData())
         return data
+    
+    @staticmethod
+    def getCategory(i):
+        category = Category.objects.get(id=i)
+        category = CategoryClass(category.name, category.id).getData()
+        return category
 
         
         

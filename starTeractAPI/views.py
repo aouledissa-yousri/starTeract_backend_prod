@@ -6,7 +6,10 @@ from .models import User, Talent
 from .classes.UserClass import UserClass
 from .classes.TalentClass import TalentClass
 from .classes.CategoryClass import CategoryClass
+from .classes.ClassificationClass import ClassificationClass
 from django.views.decorators.csrf import csrf_exempt
+import django.middleware
+import requests
 
 
 # Create your views here.
@@ -36,24 +39,30 @@ def getCategories(request):
     return JsonResponse(CategoryClass.getCategories(), safe=False)
 
 @csrf_exempt
-def printCategories(request):
-    return JsonResponse(json.loads(request.body).get("categories"), safe=False)
-
-@csrf_exempt
 def test(request):
     return JsonResponse((json.loads(request.body)), safe=False)
 
 @csrf_exempt
 def checkValidToken(request):
     try:
-        decodedToken = jwt.decode(json.loads(request.body).get("token"), "success", algorithms=["HS256"])
+        decodedToken = jwt.decode(json.loads(request.body).get("token"), "django-insecure-olcf)=r)pwgqpnc3jcvob#abk*#k29mw!zp=2taufgvfm&)-v0", algorithms=["HS256"])
         return JsonResponse({"message": "token is valid"}, safe=False)
     except:
         return JsonResponse({"message": "invalid token"}, safe=False)
 
-#@csrf_exempt
-def test(request):
-    return render(request, "login.html")
+@csrf_exempt
+def getTalents(request):
+    return JsonResponse({
+        "talents": TalentClass.getTalents(),
+        "classifications": ClassificationClass.getSavedClassifications()
+    })
+
+
+
+@csrf_exempt
+def getUserData(request):
+    return JsonResponse(UserClass.getUserData(json.loads(request.body)))
+
 
 
 

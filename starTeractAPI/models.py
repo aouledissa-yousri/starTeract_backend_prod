@@ -11,6 +11,7 @@ class User(models.Model):
     country = models.CharField(max_length=255, default="")
     password = models.CharField(max_length=255, default="")
     phone = models.CharField(max_length=255, default="", unique=True)
+    image = models.CharField(max_length=3000, default="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.Z5BlhFYs_ga1fZnBWkcKjQHaHz%26pid%3DApi&f=1")
     blocked = models.BooleanField(default=False)
     tries = models.IntegerField(default=3, validators = [ MaxValueValidator(3)])
 
