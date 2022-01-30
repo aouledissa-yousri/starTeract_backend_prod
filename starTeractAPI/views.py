@@ -40,7 +40,7 @@ def getCategories(request):
 
 @csrf_exempt
 def test(request):
-    return JsonResponse((json.loads(request.body)), safe=False)
+     return True
 
 @csrf_exempt
 def checkValidToken(request):
@@ -62,6 +62,14 @@ def getTalents(request):
 @csrf_exempt
 def getUserData(request):
     return JsonResponse(UserClass.getUserData(json.loads(request.body)))
+
+
+@csrf_exempt
+def getTalent(request):
+    return  JsonResponse(TalentClass.getTalentByName(json.loads(request.body).get("name")))
+
+
+
 
 
 

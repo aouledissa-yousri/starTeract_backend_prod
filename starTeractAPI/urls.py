@@ -8,5 +8,7 @@ urlpatterns = [
     path("login/", views.login),
     path("categories/", views.getCategories),
     path("auth/", views.checkValidToken),
-    path("users/", views.getUserData)
+    path("users/", views.getUserData),
+    path("test/", views.test),
+    path("talent/", views.getTalent)
 ]

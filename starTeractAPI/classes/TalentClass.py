@@ -2,7 +2,7 @@ from ..serializers import TalentSerializer
 from ..classes.UserClass import UserClass
 from ..classes.CategoryClass import CategoryClass
 from ..classes.ClassificationClass import ClassificationClass
-from ..models import Talent, User, Category, Classification
+from ..models import Talent, User, Category, Classification, Review
 from django.db.models import Q
 
 
@@ -93,6 +93,46 @@ class TalentClass(UserClass):
             except:
                 continue
         return talents
+    
+    @staticmethod
+    def getTalentByName(talentName):
+        talent = Talent.objects.get(name=talentName)
+        classification = Classification.objects.filter(talent_id=talent.id)
+        categories = []
+        for i in range(0, len(classification)):
+            categories.append(CategoryClass.getCategory(classification[i].category_id))
+        return {
+            "id": talent.id,
+            "name": talent.name,
+            "email": talent.email,
+            "country": talent.country,
+            "password": "",
+            "socialNetwork": talent.socialNetwork,
+            "nickname": talent.nickname,
+            "followers": talent.followers,
+            "description": talent.description,
+            "rating": talent.rating,
+            "image" : talent.image,
+            "categories": categories,
+            "reviews": TalentClass.getReviews(talent.id)
+        }
+    
+
+    @staticmethod
+    def getReviews(id):
+        records = Review.objects.filter(talent_id=id)
+        reviews = {
+            "reviewNum": records.count(),
+            "content": []
+        }
+
+        for i in range(0,len(records)):
+            reviews["reviewsContent"].append({
+                "comment": records[i].comment,
+                "rating": records[i].rating,
+                "user": records[i].user_id
+            })
+        return reviews
 
     
         
