@@ -26,6 +26,7 @@ class Talent(User):
 
 
 class Notification(models.Model):
+    id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=255, default="")
     checked = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

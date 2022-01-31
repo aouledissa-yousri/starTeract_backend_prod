@@ -54,6 +54,7 @@ class UserClass:
                     return {
                         "message": "success",
                         "id": target.id,
+                        "name": target.name,
                         "token" : UserClass.generateToken({
                             "name": credentials.getCredentials()["name"],
                             "id": target.id

@@ -10,5 +10,6 @@ urlpatterns = [
     path("auth/", views.checkValidToken),
     path("users/", views.getUserData),
     path("test/", views.test),
-    path("talent/", views.getTalent)
+    path("talent/", views.getTalent),
+    path("requestService/", views.requestService)
 ]

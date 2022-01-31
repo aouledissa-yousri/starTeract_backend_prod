@@ -7,6 +7,7 @@ from .classes.UserClass import UserClass
 from .classes.TalentClass import TalentClass
 from .classes.CategoryClass import CategoryClass
 from .classes.ClassificationClass import ClassificationClass
+from .classes.ServiceClass import ServiceClass
 from django.views.decorators.csrf import csrf_exempt
 import django.middleware
 import requests
@@ -66,7 +67,16 @@ def getUserData(request):
 
 @csrf_exempt
 def getTalent(request):
-    return  JsonResponse(TalentClass.getTalentByName(json.loads(request.body).get("name")))
+    return JsonResponse(TalentClass.getTalentByName(json.loads(request.body).get("name")))
+
+
+@csrf_exempt 
+def requestService(request):
+    service = ServiceClass()
+    if service.saveService(json.loads(request.body)):
+        return JsonResponse({"result": True})
+    return JsonResponse({"result": False}) 
+
 
 
 
