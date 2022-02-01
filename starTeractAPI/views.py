@@ -1,13 +1,14 @@
 import json
 import jwt
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .models import User, Talent
+from django.http import JsonResponse, HttpResponse
+from .models import User, Talent, Notification
 from .classes.UserClass import UserClass
 from .classes.TalentClass import TalentClass
 from .classes.CategoryClass import CategoryClass
 from .classes.ClassificationClass import ClassificationClass
 from .classes.ServiceClass import ServiceClass
+from .classes.NotificationClass import NotificationClass
 from django.views.decorators.csrf import csrf_exempt
 import django.middleware
 import requests
@@ -41,7 +42,8 @@ def getCategories(request):
 
 @csrf_exempt
 def test(request):
-     return True
+    req = requests.post("http://127.0.0.1:8000/accounts/google/login/", cookies={"csrftoken": django.middleware.csrf.get_token(request)}, allow_redirects=False)
+    return HttpResponse(req.text)
 
 @csrf_exempt
 def checkValidToken(request):
@@ -76,6 +78,16 @@ def requestService(request):
     if service.saveService(json.loads(request.body)):
         return JsonResponse({"result": True})
     return JsonResponse({"result": False}) 
+
+@csrf_exempt 
+def getNotifications(request, id):
+    return JsonResponse({
+        "notifications": NotificationClass.getNotifications(id),
+        "unread": Notification.objects.filter(user_id = id, checked=False).count()
+    })
+
+def checkNotifications(request, id):
+    NotificationClass.checkNotifications(id)
 
 
 

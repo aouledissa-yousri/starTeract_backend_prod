@@ -29,7 +29,8 @@ class Notification(models.Model):
     id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=255, default="")
     checked = models.BooleanField(default=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    emitter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="emitter")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user1")
 
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender")

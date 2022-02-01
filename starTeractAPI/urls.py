@@ -11,5 +11,7 @@ urlpatterns = [
     path("users/", views.getUserData),
     path("test/", views.test),
     path("talent/", views.getTalent),
-    path("requestService/", views.requestService)
+    path("requestService/", views.requestService),
+    path("notifications/<int:id>", views.getNotifications),
+    path("checkNotifications/<int:id>", views.checkNotifications)
 ]

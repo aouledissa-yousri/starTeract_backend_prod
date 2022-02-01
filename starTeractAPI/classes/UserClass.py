@@ -1,6 +1,7 @@
 from ..models import User
 from ..serializers import UserSerializer
 from ..classes.Credentials import Credentials
+from ..classes.NotificationClass import NotificationClass
 from django.db.models import Q
 import jwt
 import time
