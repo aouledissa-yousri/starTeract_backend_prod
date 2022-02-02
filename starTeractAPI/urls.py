@@ -13,5 +13,7 @@ urlpatterns = [
     path("talent/", views.getTalent),
     path("requestService/", views.requestService),
     path("notifications/<int:id>", views.getNotifications),
-    path("checkNotifications/<int:id>", views.checkNotifications)
+    path("checkNotifications/<int:id>", views.checkNotifications),
+    path("getServices/<int:id>", views.getServices),
+    path("refuseService/<int:id>/", views.refuseService)
 ]

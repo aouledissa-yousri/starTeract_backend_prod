@@ -88,6 +88,16 @@ def getNotifications(request, id):
 
 def checkNotifications(request, id):
     NotificationClass.checkNotifications(id)
+    return True
+
+def getServices(request, id):
+    return JsonResponse(ServiceClass.getServices(id), safe=False)
+
+@csrf_exempt
+def refuseService(request,id):
+    ServiceClass.deleteService(json.loads(request.body), id)
+    return True
+
 
 
 
