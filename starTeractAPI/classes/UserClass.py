@@ -1,4 +1,4 @@
-from ..models import User
+from ..models import User, Talent
 from ..serializers import UserSerializer
 from ..classes.Credentials import Credentials
 from ..classes.NotificationClass import NotificationClass
@@ -56,6 +56,7 @@ class UserClass:
                         "message": "success",
                         "id": target.id,
                         "name": target.name,
+                        "isTalent": UserClass.getTalent(target.id),
                         "token" : UserClass.generateToken({
                             "name": credentials.getCredentials()["name"],
                             "id": target.id
@@ -94,6 +95,14 @@ class UserClass:
             "phone": user.phone,
             "image": user.image
         }
+    
+    @staticmethod 
+    def getTalent(id):
+        try: 
+            talent = Talent.objects.get(user_ptr_id=id)
+            return True 
+        except: 
+            return False
      
 
     

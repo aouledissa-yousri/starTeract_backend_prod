@@ -5,7 +5,7 @@ class NotificationClass:
     id = 0
     description = ""
     checked = False
-    reciever = 0 
+    receiver = 0 
     emitter = 0
     image = ""
 
@@ -14,10 +14,10 @@ class NotificationClass:
         if notification == None and request==None:
             pass
         elif request != None and notification == None:
-            self.id = Notification.objects.all().count()
+            self.id = Notification.objects.all().count() + 1
             self.description = request.get("notification").get("description")
             self.checked = request.get("notification").get("checked")
-            self.receiver = request.get("notification").get("receiver"),
+            self.receiver = request.get("notification").get("receiver")
             self.emitter = request.get("notification").get("emitter")
         elif notification != None:
             self.id = notification.id
@@ -36,8 +36,18 @@ class NotificationClass:
             "image": User.objects.get(id=self.emitter).image
         }
     
+    def getNotificationData2(self):
+        return {
+            "id": self.id,
+            "description": self.description,
+            "checked": self.checked,
+            "user": self.receiver,
+            "emitter": self.emitter,
+
+        }
+    
     def push(self):
-        serializer = NotificationSerializer(data=self.getNotificationData())
+        serializer = NotificationSerializer(data=self.getNotificationData2())
         if serializer.is_valid():
             serializer.save()
         return serializer.is_valid()

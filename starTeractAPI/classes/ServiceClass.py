@@ -14,6 +14,7 @@ class ServiceClass:
         if request == None and service == None: 
             pass
         elif request != None: 
+            self.id = Service.objects.all().count() + 1
             self.user = request.get("service").get("user")
             self.talent = request.get("service").get("talent")
             self.occasion = request.get("service").get("occasion")
@@ -41,7 +42,7 @@ class ServiceClass:
     def saveService(self, request):
         self.__init__(request)
         serializer = ServiceSerializer(data=self.getData())
-        notification = NotificationClass(request)
+        notification = NotificationClass(request, None)
         if notification.push():
             if serializer.is_valid():
                 serializer.save()
@@ -70,3 +71,11 @@ class ServiceClass:
         Service.objects.filter(id=id_).delete()
         notification = NotificationClass(request)
         notification.push()
+    
+    @staticmethod 
+    def updateService(idf):
+        Service.objects.filter(id=idf).update(state="accepted")
+    
+    @staticmethod 
+    def completeService(idf): 
+        Service.objects.filter(id=idf).delete()

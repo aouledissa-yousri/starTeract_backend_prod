@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Talent, Category, Classification, Service, Notification
+from .models import User, Talent, Category, Classification, Service, Notification, Activity
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,5 +29,10 @@ class ServiceSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
+        fields = "__all__"
+
+class ActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
         fields = "__all__"
 

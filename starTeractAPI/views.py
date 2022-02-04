@@ -9,6 +9,7 @@ from .classes.CategoryClass import CategoryClass
 from .classes.ClassificationClass import ClassificationClass
 from .classes.ServiceClass import ServiceClass
 from .classes.NotificationClass import NotificationClass
+from .classes.ActivityClass import ActivityClass
 from django.views.decorators.csrf import csrf_exempt
 import django.middleware
 import requests
@@ -88,7 +89,7 @@ def getNotifications(request, id):
 
 def checkNotifications(request, id):
     NotificationClass.checkNotifications(id)
-    return True
+    return JsonResponse({"message": True})
 
 def getServices(request, id):
     return JsonResponse(ServiceClass.getServices(id), safe=False)
@@ -96,9 +97,44 @@ def getServices(request, id):
 @csrf_exempt
 def refuseService(request,id):
     ServiceClass.deleteService(json.loads(request.body), id)
-    return True
+    return JsonResponse({"message": True})
+
+@csrf_exempt
+def sendNotification(request):
+    notification = NotificationClass(json.loads(request.body))
+    if notification.push():
+        ServiceClass.updateService(json.loads(request.body).get("serviceId"))
+    return JsonResponse({"message": True})
+
+@csrf_exempt 
+def saveActivity(request):
+    activity = ActivityClass()
+    activity.saveActivity(json.loads(request.body))
+    ServiceClass.completeService(json.loads(request.body).get("serviceId"))
+    return JsonResponse({"message": True})
+
+def getActivities(request, id):
+    return JsonResponse(ActivityClass.getActivities(id), safe=False)
+
+@csrf_exempt 
+def deleteActivity(request):
+    ActivityClass.deleteActivity(json.loads(request.body).get("id"))
+    return JsonResponse({"message": True})
 
 
+
+
+def test(request):
+    notification = NotificationClass()
+    notification.id = Notification.objects.all().count() + 1
+    notification.description = "hksdgfhkdsfsdf"
+    notification.checked = False
+    notification.receiver = 4
+    notification.emitter = 1
+
+    if notification.push():
+        return JsonResponse({"message": True})
+    return JsonResponse({"message": False})
 
 
 

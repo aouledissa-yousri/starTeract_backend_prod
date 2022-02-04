@@ -15,5 +15,9 @@ urlpatterns = [
     path("notifications/<int:id>", views.getNotifications),
     path("checkNotifications/<int:id>", views.checkNotifications),
     path("getServices/<int:id>", views.getServices),
-    path("refuseService/<int:id>/", views.refuseService)
+    path("refuseService/<int:id>/", views.refuseService),
+    path("sendNotification/", views.sendNotification), 
+    path("saveActivity/", views.saveActivity),
+    path("getActivities/<int:id>", views.getActivities),
+    path("deleteActivity/", views.deleteActivity)
 ]

@@ -43,11 +43,17 @@ class Service(models.Model):
         ("Personal Video", "Personal Video")
     )
 
+    TYPES2 = (
+        ("waiting", "waiting"),
+        ("accepted", "accepted")
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     talent = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="talent")
     description = models.CharField(max_length=255, default="")
     occasion = models.CharField(max_length=255, default="")
     type = models.CharField(max_length=255, default="", choices=TYPES)
+    state = models.CharField(max_length=255, default="waiting", choices=TYPES2)
 
 
 class Video(models.Model):
@@ -71,6 +77,12 @@ class Classification(models.Model):
 
     class Meta:
         unique_together = ["talent", "category"]
+
+class Activity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user5")
+    talent = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="talent5")
+    task = models.CharField(max_length=255, default="")
+
 
 
 
