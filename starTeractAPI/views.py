@@ -10,9 +10,14 @@ from .classes.ClassificationClass import ClassificationClass
 from .classes.ServiceClass import ServiceClass
 from .classes.NotificationClass import NotificationClass
 from .classes.ActivityClass import ActivityClass
+from .classes.VideoClass import VideoClass
+from .classes.ReviewClass import ReviewClass
 from django.views.decorators.csrf import csrf_exempt
 import django.middleware
 import requests
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
 
 
 # Create your views here.
@@ -57,7 +62,7 @@ def checkValidToken(request):
 @csrf_exempt
 def getTalents(request):
     return JsonResponse({
-        "talents": TalentClass.getTalents(),
+        "talents": TalentClass.getTalents(json.loads(request.body).get("id")),
         "classifications": ClassificationClass.getSavedClassifications()
     })
 
@@ -113,6 +118,13 @@ def saveActivity(request):
     ServiceClass.completeService(json.loads(request.body).get("serviceId"))
     return JsonResponse({"message": True})
 
+@csrf_exempt 
+def saveActivity2(request):
+    activity = ActivityClass()
+    activity.saveActivity2(json.loads(request.body))
+    ServiceClass.completeService(json.loads(request.body).get("serviceId"))
+    return JsonResponse({"message": True})
+
 def getActivities(request, id):
     return JsonResponse(ActivityClass.getActivities(id), safe=False)
 
@@ -121,20 +133,41 @@ def deleteActivity(request):
     ActivityClass.deleteActivity(json.loads(request.body).get("id"))
     return JsonResponse({"message": True})
 
+@csrf_exempt 
+def addVideo(request):
+    video = VideoClass()
+    if video.addVideo(request):
+        return JsonResponse({"message": True})
+    return JsonResponse({"message": False}) 
 
+@csrf_exempt 
+def uploadImage(request, id):
+    if UserClass.changePfp(request, id):
+        return JsonResponse({"message": True})
+    return JsonResponse({"message": False}) 
+
+def postReview(request):
+    review = ReviewClass()
+    if review.postReview(json.loads(request.body)):
+        return JsonResponse({"message": True})
+    return JsonResponse({"message": False}) 
+
+class GoogleLogin(SocialLoginView):
+    '''provider_id = "google"
+    access_token_url = "https://accounts.google.com/o/oauth2/token"
+    authorize_url = "https://accounts.google.com/o/oauth2/auth" 
+    profile_url = "https://www.googleapis.com/oauth2/v1/userinfo"'''
+    adapter_class = GoogleOAuth2Adapter
+    #client_class = OAuth2Client
+
+    def complete_login(self, request, app, token, **kwargs):
+        response = requests.get(self.profile_url)
+        return 
 
 
 def test(request):
-    notification = NotificationClass()
-    notification.id = Notification.objects.all().count() + 1
-    notification.description = "hksdgfhkdsfsdf"
-    notification.checked = False
-    notification.receiver = 4
-    notification.emitter = 1
-
-    if notification.push():
-        return JsonResponse({"message": True})
-    return JsonResponse({"message": False})
+    req = requests.get("https://www.googleapis.com/oauth2/v1/userinfo", params= {"access_token": "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"})
+    return JsonResponse({"x": req.text})
 
 
 

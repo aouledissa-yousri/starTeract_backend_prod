@@ -1,6 +1,6 @@
 from ..serializers import ServiceSerializer
 from ..classes.NotificationClass import NotificationClass
-from ..models import Service, User
+from ..models import Service, User, BASE
 
 class ServiceClass:
     id = 0
@@ -59,7 +59,7 @@ class ServiceClass:
                     "service": task.getData(),
                     "user": {
                         "name": User.objects.get(id=service.user_id).name,
-                        "image": User.objects.get(id=service.user_id).image
+                        "image": BASE + str(User.objects.get(id=service.user_id).image)
                     }
                 })
             return tasks
@@ -78,4 +78,7 @@ class ServiceClass:
     
     @staticmethod 
     def completeService(idf): 
-        Service.objects.filter(id=idf).delete()
+        try: 
+            Service.objects.filter(id=idf).delete()
+        except: 
+            pass

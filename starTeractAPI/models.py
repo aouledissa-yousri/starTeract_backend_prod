@@ -1,8 +1,15 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 
-# Create your models here.
+BASE = "http://127.0.0.1:8000/media/"
 
+
+# Create your models here.
+def uploadPathVideo(instance, fileName):
+    return "/".join(["videos", str(instance.title), fileName])
+
+def uploadPathImage(instance, fileName):
+    return "/".join(["images", str(instance.title), fileName])
 
 class User(models.Model):
     id = models.BigIntegerField(primary_key=True)
@@ -11,7 +18,7 @@ class User(models.Model):
     country = models.CharField(max_length=255, default="")
     password = models.CharField(max_length=255, default="")
     phone = models.CharField(max_length=255, default="", unique=True)
-    image = models.CharField(max_length=3000, default="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.Z5BlhFYs_ga1fZnBWkcKjQHaHz%26pid%3DApi&f=1")
+    image = models.CharField(max_length=3000, default="images/default/user.jfif",blank=True, null=True)
     blocked = models.BooleanField(default=False)
     tries = models.IntegerField(default=3, validators = [ MaxValueValidator(3)])
 
@@ -22,7 +29,7 @@ class Talent(User):
     followers = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, default="")
     rating = models.FloatField(default=0)
-    verified = models.BooleanField(default=False)
+    verified = models.BooleanField(default=True)
 
 
 class Notification(models.Model):
@@ -60,7 +67,10 @@ class Video(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user2")
     talent = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="talent2")
     title = models.CharField(max_length=255, default="")
-    source = models.CharField(max_length=255, default="")
+    video = models.FileField(upload_to=uploadPathVideo, blank=True, null=True, max_length=255)
+    #video = models.ImageField(upload_to=uploadPath, blank=True, null=True, max_length=255)
+
+    
 
 class Category(models.Model):
     name = models.CharField(max_length=255, default="")
@@ -79,9 +89,22 @@ class Classification(models.Model):
         unique_together = ["talent", "category"]
 
 class Activity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user5")
-    talent = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="talent5")
+    TYPES = (
+        ("video", "video"),
+        ("payment", "payment")
+    )
+    
+    #who requests the task
+    emitter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="emitter1")
+    #who does the task
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receiver1")
     task = models.CharField(max_length=255, default="")
+    type = models.CharField(max_length=255, default="payment", choices=TYPES)
+
+class Image(models.Model):
+    title = models.CharField(max_length=255, default="", unique=True)
+    image = models.FileField(upload_to=uploadPathImage, blank=True, null=True, max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user7", unique=True)
 
 
 

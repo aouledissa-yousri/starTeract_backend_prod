@@ -4,6 +4,8 @@ from ..classes.CategoryClass import CategoryClass
 from ..classes.ClassificationClass import ClassificationClass
 from ..models import Talent, User, Category, Classification, Review
 from django.db.models import Q
+from ..models import BASE
+
 
 
 
@@ -80,16 +82,17 @@ class TalentClass(UserClass):
             "followers": talent.followers,
             "description": talent.description,
             "rating": talent.rating,
-            "image" : talent.image,
+            "image" : BASE + str(talent.image),
             "categories": categories
         }
     
     @staticmethod
-    def getTalents():
+    def getTalents(id):
         talents = []
         for talent in Talent.objects.all():
             try:
-                talents.append(TalentClass.getTalent(talent.id))
+                if id != talent.id: 
+                    talents.append(TalentClass.getTalent(talent.id))
             except:
                 continue
         return talents
@@ -112,7 +115,7 @@ class TalentClass(UserClass):
             "followers": talent.followers,
             "description": talent.description,
             "rating": talent.rating,
-            "image" : talent.image,
+            "image" : BASE + str(talent.image),
             "categories": categories,
             "reviews": TalentClass.getReviews(talent.id)
         }
@@ -127,10 +130,12 @@ class TalentClass(UserClass):
         }
 
         for i in range(0,len(records)):
-            reviews["reviewsContent"].append({
+            reviews["content"].append({
                 "comment": records[i].comment,
                 "rating": records[i].rating,
-                "user": records[i].user_id
+                "user": records[i].user_id,
+                "username": User.objects.get(id=records[i].user_id).name,
+                "userImage": BASE + str( User.objects.get(id=records[i].user_id).image)
             })
         return reviews
 

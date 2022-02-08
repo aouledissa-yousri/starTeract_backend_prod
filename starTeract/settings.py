@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.facebook',
+    "dj_rest_auth",
+    "rest_framework.authtoken"
 ]
 
 SITE_ID = 1
@@ -61,10 +63,11 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 
@@ -74,7 +77,7 @@ ROOT_URLCONF = 'starTeract.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / "starTeractAPI/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.request"
             ],
         },
     },
@@ -155,6 +159,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8100",
+    "http://localhost:4200",
     "https://web.postman.co"
 ]
 CSRF_TRUSTED_ORIGINS = [
@@ -184,3 +189,6 @@ SOCIALACCOUNT_PROVIDERS = {
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 LOGIN_REDIRECT_URL = "http://127.0.0.1:8000/api/categories"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/" 
+

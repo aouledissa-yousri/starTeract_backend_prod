@@ -18,6 +18,11 @@ urlpatterns = [
     path("refuseService/<int:id>/", views.refuseService),
     path("sendNotification/", views.sendNotification), 
     path("saveActivity/", views.saveActivity),
+    path("saveActivity2/", views.saveActivity2),
     path("getActivities/<int:id>", views.getActivities),
-    path("deleteActivity/", views.deleteActivity)
+    path("deleteActivity/", views.deleteActivity),
+    path("googleAuth/", views.GoogleLogin.as_view(), name="google_login"),
+    path("addVideo/", views.addVideo),
+    path("uploadImage/<int:id>/", views.uploadImage),
+    path("addReview/", views.postReview)
 ]

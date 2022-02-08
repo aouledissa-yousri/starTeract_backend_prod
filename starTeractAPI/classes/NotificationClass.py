@@ -1,5 +1,7 @@
 from ..serializers import NotificationSerializer
 from ..models import Notification, User
+from ..models import BASE
+
 
 class NotificationClass: 
     id = 0
@@ -33,7 +35,7 @@ class NotificationClass:
             "checked": self.checked,
             "user": self.receiver,
             "emitter": self.emitter,
-            "image": User.objects.get(id=self.emitter).image
+            "image": BASE + str(User.objects.get(id=self.emitter).image)
         }
     
     def getNotificationData2(self):
@@ -43,7 +45,6 @@ class NotificationClass:
             "checked": self.checked,
             "user": self.receiver,
             "emitter": self.emitter,
-
         }
     
     def push(self):

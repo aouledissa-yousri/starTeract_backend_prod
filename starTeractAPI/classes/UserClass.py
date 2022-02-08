@@ -1,4 +1,4 @@
-from ..models import User, Talent
+from ..models import User, Talent, Image
 from ..serializers import UserSerializer
 from ..classes.Credentials import Credentials
 from ..classes.NotificationClass import NotificationClass
@@ -6,6 +6,9 @@ from django.db.models import Q
 import jwt
 import time
 from threading import Thread
+from ..models import BASE
+import os
+
 
 class UserClass:
     __id = 0
@@ -93,7 +96,7 @@ class UserClass:
             "email": user.email,
             "country": user.country,
             "phone": user.phone,
-            "image": user.image
+            "image": BASE + str(user.image)
         }
     
     @staticmethod 
@@ -103,9 +106,39 @@ class UserClass:
             return True 
         except: 
             return False
-     
-
     
+    @staticmethod
+    def changePfp(request, idf): 
+        try: 
+            Image.objects.create(
+                title = request.POST["title"],
+                image = request.FILES["image"],
+                user_id = idf
+            )
+
+            User.objects.filter(id=idf).update(
+                image=  str(Image.objects.get(user_id=idf).image)
+            )
+
+        except: 
+            image = Image.objects.get(user_id=idf)
+            image.delete()
+
+     
+            Image.objects.create(
+                title = request.POST["title"],
+                image = request.FILES["image"],
+                user_id = idf
+            )
+
+            User.objects.filter(id=idf).update(
+                image=  str(Image.objects.get(user_id=idf).image)
+            )
+
+
+        finally: 
+            return True
+
 
     
 
