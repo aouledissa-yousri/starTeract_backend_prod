@@ -24,5 +24,6 @@ urlpatterns = [
     path("googleAuth/", views.GoogleLogin.as_view(), name="google_login"),
     path("addVideo/", views.addVideo),
     path("uploadImage/<int:id>/", views.uploadImage),
-    path("addReview/", views.postReview)
+    path("addReview/", views.postReview),
+    path("getVideos/<int:id>/", views.getVideos)
 ]

@@ -1,6 +1,7 @@
 from ..models import Video
 from ..serializers import VideoSerializer
 from ..classes.NotificationClass import NotificationClass 
+from ..models import BASE
 
 class VideoClass: 
     title = ""
@@ -34,3 +35,24 @@ class VideoClass:
         )
 
         return True
+    
+    @staticmethod 
+    def getVideos(id): 
+        videos = []
+        try: 
+            records = Video.objects.filter(talent_id=id)
+            for record in records: 
+                videos.append({
+                    "id": record.id,
+                    "talent": record.talent_id,
+                    "user": record.user_id,
+                    "source": BASE + str(record.video),
+                    "title": record.title,
+                    "state": "pause",
+                    "volume": "volume-mute",
+                    "controls": False
+                })
+        except: 
+            pass
+        finally: 
+            return videos

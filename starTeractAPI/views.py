@@ -152,6 +152,10 @@ def postReview(request):
         return JsonResponse({"message": True})
     return JsonResponse({"message": False}) 
 
+def getVideos(request, id): 
+    return JsonResponse(VideoClass.getVideos(id), safe=False)
+    
+
 class GoogleLogin(SocialLoginView):
     '''provider_id = "google"
     access_token_url = "https://accounts.google.com/o/oauth2/token"

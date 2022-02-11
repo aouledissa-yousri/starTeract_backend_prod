@@ -134,6 +134,7 @@ class TalentClass(UserClass):
                 "comment": records[i].comment,
                 "rating": records[i].rating,
                 "user": records[i].user_id,
+                "talent": records[i].talent_id,
                 "username": User.objects.get(id=records[i].user_id).name,
                 "userImage": BASE + str( User.objects.get(id=records[i].user_id).image)
             })

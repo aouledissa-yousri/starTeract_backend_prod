@@ -64,8 +64,8 @@ class Service(models.Model):
 
 
 class Video(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user2")
-    talent = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="talent2")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="videos1")
+    talent = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="videos2")
     title = models.CharField(max_length=255, default="")
     video = models.FileField(upload_to=uploadPathVideo, blank=True, null=True, max_length=255)
     #video = models.ImageField(upload_to=uploadPath, blank=True, null=True, max_length=255)
