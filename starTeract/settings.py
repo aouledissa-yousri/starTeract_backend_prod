@@ -71,7 +71,7 @@ MIDDLEWARE = [
     
 ]
 
-
+DISABLE_COLLECTSTATIC=1
 
 ROOT_URLCONF = 'starTeract.urls'
 
