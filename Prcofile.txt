@@ -1,1 +1,1 @@
-web: gunicorn starTeract.wsgi --log--file 
+web:gunicorn starTeract.wsgi --log--file 
