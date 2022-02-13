@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Talent, Category, Classification, Service, Notification, Activity, Video, Review
+from .models import User, Talent, Category, Classification, Service, Notification, Activity, Video, Review, Payment
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,4 +46,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = "__all__"
 
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Payment
+        fields = "__all__"
 

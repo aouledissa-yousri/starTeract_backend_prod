@@ -10,6 +10,7 @@ from .classes.ClassificationClass import ClassificationClass
 from .classes.ServiceClass import ServiceClass
 from .classes.NotificationClass import NotificationClass
 from .classes.ActivityClass import ActivityClass
+from .classes.PaymentClass import PaymentClass 
 from .classes.VideoClass import VideoClass
 from .classes.ReviewClass import ReviewClass
 from django.views.decorators.csrf import csrf_exempt
@@ -113,8 +114,12 @@ def sendNotification(request):
 
 @csrf_exempt 
 def saveActivity(request):
-    activity = ActivityClass()
-    activity.saveActivity(json.loads(request.body))
+    if json.loads(request.body).get("activity").get("paymentLink"):
+        payment = PaymentClass()
+        payment.saveActivity(json.loads(request.body))
+    else:
+        activity = ActivityClass()
+        activity.saveActivity(json.loads(request.body))
     ServiceClass.completeService(json.loads(request.body).get("serviceId"))
     return JsonResponse({"message": True})
 
@@ -154,6 +159,10 @@ def postReview(request):
 
 def getVideos(request, id): 
     return JsonResponse(VideoClass.getVideos(id), safe=False)
+
+@csrf_exempt 
+def getPaymentLink(request): 
+    return JsonResponse(PaymentClass.getPaymentLink(json.loads(request.body).get("id")))
     
 
 class GoogleLogin(SocialLoginView):

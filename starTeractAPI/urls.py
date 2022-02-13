@@ -25,5 +25,6 @@ urlpatterns = [
     path("addVideo/", views.addVideo),
     path("uploadImage/<int:id>/", views.uploadImage),
     path("addReview/", views.postReview),
-    path("getVideos/<int:id>/", views.getVideos)
+    path("getVideos/<int:id>/", views.getVideos),
+    path("payment-link/", views.getPaymentLink)
 ]

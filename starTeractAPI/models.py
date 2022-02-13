@@ -101,6 +101,10 @@ class Activity(models.Model):
     task = models.CharField(max_length=255, default="")
     type = models.CharField(max_length=255, default="payment", choices=TYPES)
 
+class Payment(Activity):
+    paymentLink = models.CharField(max_length=3000, default="")
+
+
 class Image(models.Model):
     title = models.CharField(max_length=255, default="", unique=True)
     image = models.FileField(upload_to=uploadPathImage, blank=True, null=True, max_length=255)

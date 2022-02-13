@@ -58,7 +58,7 @@ class ActivityClass:
                     "task": activity.task,
                     "image": BASE + str(User.objects.get(id=activity.emitter_id).image),
                     "name": User.objects.get(id=activity.emitter_id).name,
-                    "type": activity.type
+                    "type": activity.type,
                 })
             return result
         except: 
