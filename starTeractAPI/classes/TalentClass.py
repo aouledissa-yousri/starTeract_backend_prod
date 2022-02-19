@@ -91,8 +91,8 @@ class TalentClass(UserClass):
         talents = []
         for talent in Talent.objects.all():
             try:
-                if id != talent.id: 
-                    talents.append(TalentClass.getTalent(talent.id))
+                #if id != talent.id: 
+                talents.append(TalentClass.getTalent(talent.id))
             except:
                 continue
         return talents
