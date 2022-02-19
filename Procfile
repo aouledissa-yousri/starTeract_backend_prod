@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn starTeract.wsgi --log-file
+web: gunicorn starTeract.wsgi --log-file -
