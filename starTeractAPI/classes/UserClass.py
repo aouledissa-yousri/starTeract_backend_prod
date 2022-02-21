@@ -52,7 +52,8 @@ class UserClass:
     def login(self, request):
         try:
             credentials = Credentials(request)
-            target = User.objects.get((Q(name=credentials.getCredentials()["name"]) | Q(email=credentials.getCredentials()["email"])))
+            #target = User.objects.get((Q(name=credentials.getCredentials()["name"]) | Q(email=credentials.getCredentials()["email"])))
+            target = User.objects.get(name=credentials.getCredentials()["name"])
             if target:
                 if target.password == credentials.getCredentials()["password"] and target.blocked == False:
                     return {
