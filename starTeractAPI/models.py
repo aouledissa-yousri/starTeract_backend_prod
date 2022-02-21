@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 
-BASE = "http://127.0.0.1:8000/media/"
+#BASE = "http://127.0.0.1:8000/media/"
+BASE = "https://star-teract.herokuapp.com/media/"
 
 
 # Create your models here.
