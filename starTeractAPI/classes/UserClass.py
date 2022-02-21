@@ -50,30 +50,30 @@ class UserClass:
         return serializer.is_valid()
     
     def login(self, request):
-        try:
-            credentials = Credentials(request)
-            #target = User.objects.get((Q(name=credentials.getCredentials()["name"]) | Q(email=credentials.getCredentials()["email"])))
-            target = User.objects.get(name=credentials.getCredentials()["name"])
-            if target:
-                if target.password == credentials.getCredentials()["password"] and target.blocked == False:
-                    return {
-                        "message": "success",
-                        "id": target.id,
-                        "name": target.name,
-                        "isTalent": UserClass.getTalent(target.id),
-                        "token" : UserClass.generateToken({
-                            "name": credentials.getCredentials()["name"],
-                            "id": target.id
-                        })    
-                    }
-                User.objects.filter(id = target.id).update(tries= target.tries - 1)
-                if target.tries < 1:
-                    User.objects.filter(id = target.id).update(blocked= True)
-                    Thread(target= self.__restart, args=(target.id,)).start()
-                    return {"message": "your account is temporarily blocked please try again later!"}
-                return {"message": "password is wrong"}
-        except:
-            return {"message": "user not found"}
+        #try:
+        credentials = Credentials(request)
+        target = User.objects.get((Q(name=credentials.getCredentials()["name"]) | Q(email=credentials.getCredentials()["email"])))
+            #target = User.objects.get(name=credentials.getCredentials()["name"])
+        if target:
+            if target.password == credentials.getCredentials()["password"] and target.blocked == False:
+                return {
+                    "message": "success",
+                    "id": target.id,
+                    "name": target.name,
+                    "isTalent": UserClass.getTalent(target.id),
+                    "token" : UserClass.generateToken({
+                        "name": credentials.getCredentials()["name"],
+                        "id": target.id
+                    })    
+                }
+            User.objects.filter(id = target.id).update(tries= target.tries - 1)
+            if target.tries < 1:
+                User.objects.filter(id = target.id).update(blocked= True)
+                Thread(target= self.__restart, args=(target.id,)).start()
+                return {"message": "your account is temporarily blocked please try again later!"}
+            return {"message": "password is wrong"}
+        '''except:
+            return {"message": "user not found"}'''
 
     def __restart(self, id):
         if self.__blocked == False:
