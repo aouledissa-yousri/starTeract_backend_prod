@@ -2,7 +2,7 @@ import json
 import jwt
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-from .models import User, Talent, Notification
+from .models import User, Talent, Notification, Service
 from .classes.UserClass import UserClass
 from .classes.TalentClass import TalentClass
 from .classes.CategoryClass import CategoryClass
@@ -98,7 +98,10 @@ def checkNotifications(request, id):
     return JsonResponse({"message": True})
 
 def getServices(request, id):
-    return JsonResponse(ServiceClass.getServices(id), safe=False)
+    return JsonResponse({
+        "services": ServiceClass.getServices(id),
+        "unread": Service.objects.filter(user_id = id, checked=False).count()
+    })
 
 @csrf_exempt
 def refuseService(request,id):

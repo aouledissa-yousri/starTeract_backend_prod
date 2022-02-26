@@ -86,3 +86,7 @@ class ServiceClass:
             Service.objects.filter(id=idf).delete()
         except: 
             pass
+    
+    @staticmethod
+    def checkServices(id):
+        Service.objects.filter(checked=False, user_id=id).update(checked=True)
