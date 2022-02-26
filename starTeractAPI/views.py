@@ -153,7 +153,7 @@ def uploadImage(request, id):
 
 def postReview(request):
     review = ReviewClass()
-    notification = NotificationClass(json.loads(request.body).get("notification"))
+    notification = NotificationClass(json.loads(request.body))
     if review.postReview(json.loads(request.body).get("review")):
         if notification.push():
             return JsonResponse({"message": True})
