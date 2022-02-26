@@ -154,7 +154,7 @@ def uploadImage(request, id):
 @csrf_exempt
 def postReview(request):
     review = ReviewClass()
-    if review.postReview(json.loads(request.body).get("review")):
+    if review.postReview(json.loads(request.body)):
         return JsonResponse({"message": True})
     return JsonResponse({"message": False}) 
 
