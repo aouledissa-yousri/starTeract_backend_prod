@@ -62,6 +62,8 @@ class Service(models.Model):
     occasion = models.CharField(max_length=255, default="")
     type = models.CharField(max_length=255, default="", choices=TYPES)
     state = models.CharField(max_length=255, default="waiting", choices=TYPES2)
+    checked = models.BooleanField(default=False)
+
 
 
 class Video(models.Model):
@@ -101,6 +103,8 @@ class Activity(models.Model):
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receiver1")
     task = models.CharField(max_length=255, default="")
     type = models.CharField(max_length=255, default="payment", choices=TYPES)
+    #checked = models.BooleanField(default=False)
+
 
 class Payment(Activity):
     paymentLink = models.CharField(max_length=3000, default="")

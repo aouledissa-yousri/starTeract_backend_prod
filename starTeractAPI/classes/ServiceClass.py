@@ -9,6 +9,7 @@ class ServiceClass:
     occasion = ""
     description = ""
     type = ""
+    checked = False
 
     def __init__(self, request=None, service=None):
         if request == None and service == None: 
@@ -20,6 +21,7 @@ class ServiceClass:
             self.occasion = request.get("service").get("occasion")
             self.description = request.get("service").get("description")
             self.type = request.get("service").get("type")
+            self.checked = False
         elif service != None: 
             self.id = service.id
             self.user = service.user_id
@@ -27,7 +29,8 @@ class ServiceClass:
             self.occasion = service.occasion
             self.description = service.description
             self.type = service.type
-    
+            self.checked = service.checked
+
 
     def getData(self):
         return {
@@ -36,7 +39,8 @@ class ServiceClass:
             "occasion": self.occasion,
             "type": self.type,
             "user": self.user,
-            "talent": self.talent
+            "talent": self.talent,
+            "checked": self.checked
         }
     
     def saveService(self, request):
