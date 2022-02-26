@@ -77,7 +77,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255, default="")
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user3", unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user3")
     talent = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="talent3")
     comment = models.CharField(max_length=255, default="")
     rating = models.FloatField(default=0)
