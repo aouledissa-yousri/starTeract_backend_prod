@@ -19,10 +19,10 @@ class ReviewClass:
 
     def getData(self):
         return {
+            "user": self.user,
+            "talent": self.talent,
             "comment": self.comment,
             "rating": self.rating,
-            "user": self.user,
-            "talent": self.talent
         }
     
 
