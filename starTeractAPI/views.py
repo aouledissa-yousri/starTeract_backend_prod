@@ -151,13 +151,10 @@ def uploadImage(request, id):
         return JsonResponse({"message": True})
     return JsonResponse({"message": False}) 
 
-@csrf_exempt
 def postReview(request):
     review = ReviewClass()
-    notification = NotificationClass(json.loads(request.body))
     if review.postReview(json.loads(request.body).get("review")):
-        if notification.push():
-            return JsonResponse({"message": True})
+        return JsonResponse({"message": True})
     return JsonResponse({"message": False}) 
 
 def getVideos(request, id): 
