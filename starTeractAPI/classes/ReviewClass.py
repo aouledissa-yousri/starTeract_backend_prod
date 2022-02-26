@@ -7,8 +7,8 @@ class ReviewClass:
     user = 0 
     talent = 0 
 
-    def __init__(self, request=None, review=None):
-        if request == None and review == None:
+    def __init__(self, request=None):
+        if request == None:
             pass 
         elif request != None: 
             self.comment = request.get("comment")
