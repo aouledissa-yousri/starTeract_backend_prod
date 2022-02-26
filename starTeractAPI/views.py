@@ -153,8 +153,10 @@ def uploadImage(request, id):
 
 def postReview(request):
     review = ReviewClass()
-    if review.postReview(json.loads(request.body)):
-        return JsonResponse({"message": True})
+    notification = NotificationClass(json.loads(request.body))
+    if review.postReview(json.loads(request.body).get("review")):
+        if notification.push():
+            return JsonResponse({"message": True})
     return JsonResponse({"message": False}) 
 
 def getVideos(request, id): 
