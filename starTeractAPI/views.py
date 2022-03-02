@@ -100,7 +100,7 @@ def checkNotifications(request, id):
 def getServices(request, id):
     return JsonResponse({
         "services": ServiceClass.getServices(id),
-        "unread": Service.objects.filter(user_id = id, checked=False).count()
+        "unread": Service.objects.filter(talent_id = id, checked=False).count()
     })
 
 @csrf_exempt
